@@ -1,5 +1,5 @@
+from . import Graficos as gr
 import pandas as pd
-import plotly.express as px
 
 columns = [
     'nome', 'rank','ano', 'industria','setor',
@@ -14,3 +14,13 @@ def Data():
     return data.loc[data['ano'] >= 2015]
 
 
+def Anos(data:pd.DataFrame):
+    lista = (data['ano'].value_counts().index).to_list()
+    return lista
+
+def SetorAno(Ano:int,data:pd.DataFrame):
+    data = data.loc[data['ano'] == Ano]
+    data = data.groupby(by='setor')['valor_de_mercado_mi'].sum()
+    
+    fig  = gr.PlotSetorAno(data.reset_index(),Ano)
+    return fig
